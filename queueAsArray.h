@@ -2,7 +2,7 @@
  * ===========================================================
  * Name: CS220
  * Section: n/a
- * Project: Lab11 - Queue ADT implemented with C array
+ * Project: Queue ADT implemented with C array
  * ===========================================================
  */
 #ifndef QASARRAY_H
