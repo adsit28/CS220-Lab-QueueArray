@@ -14,7 +14,7 @@
 typedef struct {
     int number[QUEUE_MAX_SIZE];  // the array storing the contents of the queue
     int front;                   // the current index of the front of the queue
-    int back;                    // the current index of the front of the queue
+    int back;                    // the current index of the back of the queue
     int size;                    // the current number of elements stored in the queue
 } QueueAsArray;
 
