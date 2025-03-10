@@ -3,10 +3,13 @@
  * Name: 
  * Section: 
  * Project: Queue ADT implemented with C array
+ * //Coded entirely by chatgpt
  * ===========================================================
  */
-#include "queueAsArray.h"
 
+ // queueAsArray.c
+
+#include "queueAsArray.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -16,15 +19,41 @@
  * @return 1 on success, -1 on failure
  */
 int enqueue(QueueAsArray* queue, int element) {
-    return -1;
+    if (queueIsFull(queue)) {
+        return -1;  // Queue is full, cannot add element
+    }
+    
+    // Add the element to the queue at the current back index
+    queue->number[queue->back] = element;
+    
+    // Update the back index in a circular manner
+    queue->back = (queue->back + 1) % QUEUE_MAX_SIZE;
+    
+    // Increment the size of the queue
+    queue->size++;
+    
+    return 1;  // Success
 }
 
 /** dequeue() - removes an element from the front of the queue
  * @param queue - a ptr to the queue structure
- * @return - the top of the queue on success, -1 on failure
+ * @return - the front of the queue on success, -1 on failure
  */
 int dequeue(QueueAsArray* queue) {
-    return -1;
+    if (queueIsEmpty(queue)) {
+        return -1;  // Queue is empty, cannot dequeue
+    }
+    
+    // Get the element from the front of the queue
+    int element = queue->number[queue->front];
+    
+    // Update the front index in a circular manner
+    queue->front = (queue->front + 1) % QUEUE_MAX_SIZE;
+    
+    // Decrement the size of the queue
+    queue->size--;
+    
+    return element;  // Return the dequeued element
 }
 
 /** queueIsEmpty() - determines if the queue is empty
@@ -32,7 +61,7 @@ int dequeue(QueueAsArray* queue) {
  * @return - true if the queue is empty or false
  */
 bool queueIsEmpty(QueueAsArray* queue) {
-    return true;
+    return queue->size == 0;
 }
 
 /** queueIsFull() - determines if the queue is full
@@ -40,14 +69,16 @@ bool queueIsEmpty(QueueAsArray* queue) {
  * @return - true if the queue is full or false
  */
 bool queueIsFull(QueueAsArray* queue) {
-    return true;
+    return queue->size == QUEUE_MAX_SIZE;
 }
 
 /** queueInit() - initializes the queue structure
  * @param queue - a ptr to the queue structure
  */
 void queueInit(QueueAsArray* queue) {
-    
+    queue->front = 0;
+    queue->back = 0;
+    queue->size = 0;
 }
 
 /** queuePeek() - returns the item on the front of the
@@ -56,7 +87,11 @@ void queueInit(QueueAsArray* queue) {
  * @return - the item at the front of the queue or -1 on failure
  */
 int queuePeek(QueueAsArray* queue) {
-    return -1;
+    if (queueIsEmpty(queue)) {
+        return -1;  // Queue is empty, cannot peek
+    }
+    
+    return queue->number[queue->front];  // Return the front element
 }
 
 /** queueSize() - determines the size of the queue
@@ -64,12 +99,22 @@ int queuePeek(QueueAsArray* queue) {
  * @return - number of items in the queue
  */
 int queueSize(QueueAsArray* queue) {
-    return -1;
+    return queue->size;
 }
 
 /** queuePrint() - outputs the queue to the console
  * @param queue - ptr to the queue structure
  */
 void queuePrint(QueueAsArray* queue) {
+    if (queueIsEmpty(queue)) {
+        printf("Queue is empty.\n");
+        return;
+    }
     
+    int i = queue->front;
+    for (int count = 0; count < queue->size; count++) {
+        printf("%d ", queue->number[i]);
+        i = (i + 1) % QUEUE_MAX_SIZE;  // Circular increment
+    }
+    printf("\n");
 }
